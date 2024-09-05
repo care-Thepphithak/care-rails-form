@@ -23,13 +23,13 @@
 
   <div>
     <%= form.label :birth_date, style: "display: block" %>
-    <%= form.date_field :b_date, required: true %>
+    <%= form.date_field :b_date, required: true, id: "register_birth_date" %>
   </div>
 
   <div>
     <%= form.label :gender, style: "display: block" %>
     <div style="display: flex; gap: 10px; align-content: center;">
-    <%= form.radio_button :gender, 'Male', required: true %>
+    <%= form.radio_button :gender, 'Male', required: true, id: "register_gender" %>
     <%= form.label :gender, "Male" %>
     <%= form.radio_button :gender, 'Female' %>
     <%= form.label :gender, "Female" %>
@@ -45,7 +45,7 @@
 
   <div>
     <%= form.label :phone_number, style: "display: block" %>
-    <%= form.telephone_field :phone_num, pattern: "[0-9]{3,10}", placeholder: "ex. 0990127304", required: true %>
+    <%= form.telephone_field :phone_num, pattern: "[0-9]{3,10}", placeholder: "ex. 0990127304", required: true, id: "register_phone_number" %>
   </div>
 
   <div>
