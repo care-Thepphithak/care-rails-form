@@ -11,49 +11,56 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :first_name, style: "display: block" %>
-    <%= form.text_field :first_name, required: true %>
-  </div>
-
-  <div>
-    <%= form.label :last_name, style: "display: block" %>
-    <%= form.text_field :last_name, required: true %>
-  </div>
-
-  <div>
-    <%= form.label :birth_date, style: "display: block" %>
-    <%= form.date_field :b_date, required: true, id: "register_birth_date" %>
-  </div>
-
-  <div>
-    <%= form.label :gender, style: "display: block" %>
-    <div style="display: flex; gap: 10px; align-content: center;">
-    <%= form.radio_button :gender, 'Male', required: true, id: "register_gender" %>
-    <%= form.label :gender, "Male" %>
-    <%= form.radio_button :gender, 'Female' %>
-    <%= form.label :gender, "Female" %>
-    <%= form.radio_button :gender, 'LGTV(BT)Q+' %>
-    <%= form.label :gender, "LGTV(BT)Q+" %>
+  <div class="row">
+    <div>
+      <%= form.label :first_name, style: "display: block" %>
+      <%= form.text_field :first_name, required: true %>
+    </div>
+    <div>
+      <%= form.label :last_name, style: "display: block" %>
+      <%= form.text_field :last_name, required: true %>
     </div>
   </div>
 
-  <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.email_field :email, placeholder: "ex@example.com" %>
+  <div class="row">
+    <div style="width: 100%;">
+      <%= form.label :birth_date, style: "display: block;" %>
+      <%= form.date_field :b_date, required: true, id: "register_birth_date", style: "width: 100%;" %>
+    </div>
+    <div style="min-width: 234px;">
+      <%= form.label :gender, style: "display: block" %>
+      <div class="radio-group">
+            <%= form.label :gender_male, class: "container" do %>
+                    <div>Male</div>                   
+                    <%= form.radio_button :gender, 'Male', required: true, checked: true, id: "register_gender_male" %>
+                    <span class="checkmark"></span>
+            <% end %>
+            <%= form.label :gender_female, class: "container" do %>
+                    <div>Female</div>
+                    <%= form.radio_button :gender, 'Female', id: "register_gender_female" %>
+                    <span class="checkmark"></span>
+            <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <%= form.label :email, style: "display: block" %>
+      <%= form.email_field :email %>
+    </div>
+    <div>
+      <%= form.label :phone_number, style: "display: block" %>
+      <%= form.telephone_field :phone_num, pattern: "[0-9]{3,10}", required: true, id: "register_phone_number" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :subject, class: "form-label" %>
+    <%= form.select :subject, options_for_select([["I don't know yet","I don't know yet"], ["Calculus I", "Calculus I"], ["Linear Algebra", "Linear Algebra"], ["Differential Equation", "Differential Equation"]]), { prompt: "Choose option" }, class: "form-select", required: true %>
   </div>
 
   <div>
-    <%= form.label :phone_number, style: "display: block" %>
-    <%= form.telephone_field :phone_num, pattern: "[0-9]{3,10}", placeholder: "ex. 0990127304", required: true, id: "register_phone_number" %>
-  </div>
-
-  <div>
-    <%= form.label :subject, style: "display: block" %>
-    <%= form.select :subject, options_for_select([["I don't know yet","I don't know yet"], ["Calculus I", "Calculus I"], ["Linear Algebra", "Linear Algebra"], ["Differential Equation", "Differential Equation"]]) %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= form.submit "Submit" %>
   </div>
 <% end %>
