@@ -4,6 +4,7 @@ class RegistersController < ApplicationController
   end
 
   def new
+    @register = Register.new
   end
 
   def edit

@@ -1,2 +1,10 @@
-<h1>Registers#new</h1>
-<p>Find me in app/views/registers/new.html.erb</p>
+<h1>Register Form</h1>
+
+<%= render "form", register: @register %>
+
+<br>
+
+<div>
+  <%= link_to "Back to registers", registers_path %>
+</div>
+
