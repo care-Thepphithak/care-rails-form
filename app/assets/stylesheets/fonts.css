@@ -5,14 +5,14 @@
 
 @font-face {
   font-family: "sukhumvit";
-  src: url("assets/fonts/SukhumvitSet-Text.ttf") format("truetype");
+  src: url("SukhumvitSet-Text.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "sukhumvit";
-  src: url("assets/fonts/SukhumvitSet-Bold.ttf") format("truetype");
+  src: url("SukhumvitSet-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
