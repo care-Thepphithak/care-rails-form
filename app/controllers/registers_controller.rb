@@ -30,7 +30,14 @@ class RegistersController < ApplicationController
   def update
   end
 
-  def destory
+  def destroy
+    @register = Register.find(params[:id])
+    @register.destroy!
+
+    respond_to do |format|
+      format.html { redirect_to registers_url, notice: "#{@register.first_name} #{@register.last_name}'s Registration deleted." }
+      format.json { head :no_content }
+    end
   end
 end
 
