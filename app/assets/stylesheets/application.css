@@ -323,3 +323,12 @@ tbody > tr > td:last-child {
   scale: 1;
   transition: all 0.5s ease;
 }
+
+.edit-box {
+  display: flex;
+  flex-direction: column;
+  max-width: 650px;
+  background-color: var(--background-container);
+  padding: 4rem;
+  border-radius: 20px;
+}

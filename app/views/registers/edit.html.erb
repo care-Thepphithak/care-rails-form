@@ -1,10 +1,14 @@
-<h1>Editing register</h1>
-
-<%# render form with passing a registration record according to its :id %>
-<%= render "form", register: @register %>
-
-<br>
-
-<div>
-  <%= link_to "Back to Home", registers_path %>
+<div class="main">
+  <div class="edit-box">
+    <h1>Editing register</h1>
+    
+    <%# render form with passing a registration record according to its :id %>
+    <%= render "form", register: @register %>
+    
+    <br>
+    
+    <div>
+      <%= link_to "Back to Home", registers_path, style: "text-decoration: underline;" %>
+    </div>
+  </div>
 </div>
