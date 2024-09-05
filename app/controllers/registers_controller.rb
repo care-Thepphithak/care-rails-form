@@ -8,6 +8,7 @@ class RegistersController < ApplicationController
   end
 
   def edit
+    @register = Register.find(params[:id])
   end
 
   def show

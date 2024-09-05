@@ -1,2 +1,10 @@
-<h1>Registers#edit</h1>
-<p>Find me in app/views/registers/edit.html.erb</p>
+<h1>Editing register</h1>
+
+<%# render form with passing a registration record according to its :id %>
+<%= render "form", register: @register %>
+
+<br>
+
+<div>
+  <%= link_to "Back to Home", registers_path %>
+</div>
