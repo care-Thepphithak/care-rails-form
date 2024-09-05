@@ -8,11 +8,11 @@ class RegistersController < ApplicationController
   end
 
   def edit
-    @register = Register.find(params[:id])
+    set_register
   end
 
   def show
-    @register = Register.find(params[:id])
+    set_register
   end
 
   def create
@@ -42,7 +42,7 @@ class RegistersController < ApplicationController
   end
 
   def destroy
-    @register = Register.find(params[:id])
+    set_register
     @register.destroy!
 
     respond_to do |format|
@@ -50,8 +50,14 @@ class RegistersController < ApplicationController
       format.json { head :no_content }
     end
   end
-end
 
-def register_params
-  params.require(:register).permit(:first_name, :last_name, :b_date, :gender, :email, :phone_num, :subject)
+  private
+
+  def set_register
+    @register = Register.find(params[:id])
+  end
+
+  def register_params
+    params.require(:register).permit(:first_name, :last_name, :b_date, :gender, :email, :phone_num, :subject)
+  end
 end
