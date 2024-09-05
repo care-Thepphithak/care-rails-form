@@ -1,17 +1,43 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Registers</h1>
-
-<%= link_to "New register", new_register_path %>
-
-<div id="registers">
-  <% @registers.each do |register| %>
-    <%= render register %>
-
-    <div>      
-      <%= button_to "Delete", register, method: :delete %>
-      <%= button_to "Edit", edit_register_path(register), method: :get %>
-    </div>
-
-  <% end %>
+<div style="max-width: 1500px; margin: auto;">
+  <p style="color: green"><%= notice %></p>
+  
+  <h1>Registers</h1>
+  
+  <%= link_to "New register", new_register_path, class: "reg-btn" %>
+  <br><br>
+  
+  <div id="registers">
+    <table>
+      <thead>
+        <tr>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Birth date</th>
+          <th>Gender</th>
+          <th>Email</th>
+          <th>Phone number</th>
+          <th>Subject</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @registers.each do |register| %>
+          <tr>
+            <td><%= register.first_name %></td>
+            <td><%= register.last_name %></td>
+            <td><%= register.b_date %></td>
+            <td><%= register.gender %></td>
+            <td><%= register.email %></td>
+            <td><%= register.phone_num %></td>
+            <td><%= register.subject.empty? ? "-" : register.subject %></td>
+            <td>
+              <%= button_to "Edit", edit_register_path(register), method: :get, class: "edit-btn" %>
+              <br>
+              <%= button_to "Delete", register, method: :delete, class: "del-btn" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -17,13 +17,13 @@
 :root {
   --text: #333;
   --background: linear-gradient(
-    0deg,
-    rgba(255, 57, 119, 1) 0%,
-    rgba(166, 76, 117, 1) 100%
+    180deg,
+    rgb(50, 135, 17) 0%,
+    rgba(47, 225, 27, 0.779) 100%
   );
   --background-container: #fafafa;
-  --button: rgb(95, 115, 201);
-  --hover: rgb(42, 74, 219);
+  --button: rgb(255, 117, 38);
+  --hover: rgb(0, 0, 0);
   --text-on-btn: #fafafa;
 }
 
@@ -36,10 +36,11 @@ a {
   color: var(--text);
   text-decoration: none;
   transition: all 0.5s ease;
+  scale: 1;
 }
 
 a:hover {
-  color: var(--hover);
+  scale: 0.95;
   transition: all 0.5s ease;
 }
 
@@ -59,11 +60,6 @@ button {
 }
 
 button:hover {
-  background-color: var(--hover);
-  transition: all 0.5s ease;
-}
-
-button:active {
   scale: 0.95;
   transition: all 0.5s ease;
 }
@@ -95,11 +91,6 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-  background: var(--hover);
-  transition: all 0.5s ease;
-}
-
-input[type="submit"]:active {
   scale: 0.95;
   transition: all 0.5s ease;
 }
@@ -122,7 +113,7 @@ input[type="radio"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   background: var(--background);
 }
@@ -142,8 +133,6 @@ input[type="radio"] {
   gap: 2rem;
   justify-content: space-between;
 }
-
-
 
 .radio-group {
   display: flex;
@@ -167,7 +156,7 @@ input[type="radio"] {
 }
 
 .container > div {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 /* Hide the browser's default radio button */
@@ -245,4 +234,92 @@ input[type="radio"] {
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 10px;
+}
+
+table {
+  min-width: 1400px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #4caf50;
+  color: white;
+}
+
+tbody > tr > td:last-child {
+  text-align: center;
+  display: flex;
+  gap: 10px;
+}
+
+.reg-btn {
+  width: 140px;
+  height: 40px;
+  margin: auto;
+  background-color: #4caf50;
+  color: var(--text-on-btn);
+  font-weight: bold;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: normal;
+  scale: 1;
+  transition: all 0.5s ease;
+}
+
+.reg-btn:hover {
+  scale: 0.95;
+  transition: all 0.5s ease;
+}
+
+.del-btn {
+  width: 140px;
+  height: 40px;
+  background-color: #f44336cd;
+  color: var(--text-on-btn);
+  font-weight: bold;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: normal;
+  scale: 1;
+  transition: all 0.5s ease;
+}
+
+.edit-btn {
+  width: 140px;
+  height: 40px;
+  background-color: #2196f3;
+  color: var(--text-on-btn);
+  font-weight: bold;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: normal;
+  scale: 1;
+  transition: all 0.5s ease;
 }
