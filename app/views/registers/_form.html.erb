@@ -1,0 +1,59 @@
+<%= form_with(model: register) do |form| %>
+  <% if register.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(register.errors.count, "error") %> occured:</h2>
+
+      <ul>
+        <% register.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :first_name, style: "display: block" %>
+    <%= form.text_field :first_name, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :last_name, style: "display: block" %>
+    <%= form.text_field :last_name, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :birth_date, style: "display: block" %>
+    <%= form.date_field :b_date, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :gender, style: "display: block" %>
+    <div style="display: flex; gap: 10px; align-content: center;">
+    <%= form.radio_button :gender, 'Male', required: true %>
+    <%= form.label :gender, "Male" %>
+    <%= form.radio_button :gender, 'Female' %>
+    <%= form.label :gender, "Female" %>
+    <%= form.radio_button :gender, 'LGTV(BT)Q+' %>
+    <%= form.label :gender, "LGTV(BT)Q+" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :email, style: "display: block" %>
+    <%= form.email_field :email, placeholder: "ex@example.com" %>
+  </div>
+
+  <div>
+    <%= form.label :phone_number, style: "display: block" %>
+    <%= form.telephone_field :phone_num, pattern: "[0-9]{3,10}", placeholder: "ex. 0990127304", required: true %>
+  </div>
+
+  <div>
+    <%= form.label :subject, style: "display: block" %>
+    <%= form.select :subject, options_for_select([["I don't know yet","I don't know yet"], ["Calculus I", "Calculus I"], ["Linear Algebra", "Linear Algebra"], ["Differential Equation", "Differential Equation"]]) %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
