@@ -10,8 +10,8 @@
 
     <div>      
       <%= button_to "Delete", register, method: :delete %>
-      <%= button_to "Edit", edit_register_path(register) %>
+      <%= button_to "Edit", edit_register_path(register), method: :get %>
     </div>
-    
+
   <% end %>
 </div>
