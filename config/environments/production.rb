@@ -3,8 +3,8 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   #
-  # add known hosts
-  config.hosts << "e3tow1c-ddsgom.uk"
+  # add known hosts to anyhost
+  config.hosts = ["localhost", "127.0.0.1", "e3tow1c-ddsgom.uk", "13.228.225.149"]
 
   # Code is not reloaded between requests.
   config.enable_reloading = false
