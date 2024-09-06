@@ -1,0 +1,93 @@
+name: Care on Rails Production
+
+on:
+  push:
+    branches: ["main"]
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: care-Thepphithak/care-rails-form
+  DEPLOY_PATH: ~/care-rails
+
+jobs:
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    outputs:
+      image_tags: ${{ steps.meta.outputs.tags }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix={{branch}}-,format=short
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Login GitHub
+        run: ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} 'echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin'
+
+      - name: Copy Docker compose file to VM
+        run: scp -o StrictHostKeyChecking=no docker-compose.yml care@${{ secrets.AWS_HOST_IP }}:${{ env.DEPLOY_PATH }}
+
+      - name: Set up and copy env file
+        env:
+          ENV: ${{ secrets.ENV_PROD }}
+        run: echo $ENV > .env
+
+      - name: Copy env file
+        run: scp -o StrictHostKeyChecking=no .env care@${{ secrets.AWS_HOST_IP }}:${{ env.DEPLOY_PATH }}
+
+      - name: Build Docker compose
+        run: ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} 'cd ${{ env.DEPLOY_PATH }} && docker compose -f docker-compose.yml pull'
+
+      - name: Run Docker compose
+        run: ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} 'cd ${{ env.DEPLOY_PATH }} && docker compose -f docker-compose.yml up -d'
+
+      - name: clear docker image
+        run: ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} 'cd ${{ env.DEPLOY_PATH }} && docker image prune -f'
