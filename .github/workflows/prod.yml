@@ -3,6 +3,10 @@ name: Care on Rails Production
 on:
   push:
     branches: ["main"]
+  
+permissions:
+  contents: read
+  packages: write
 
 env:
   # Use docker.io for Docker Hub if empty
