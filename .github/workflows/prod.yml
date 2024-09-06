@@ -76,11 +76,14 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Login GitHub
-        run: sshpass -o StrictHostKeyChecking=no -p "${{ secrets.SUDO_PASSWORD }}" ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} 'echo "${{ secrets.GITHUB_TOKEN }}" | sudo -S docker login ghcr.io -u ${{ github.actor }} --password-stdin'
+      - name: Login ghcr.io
+        run: |
+            sshpass -p "${{ secrets.SUDO_PASSWORD }}" ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} \
+            'echo "${{ secrets.GITHUB_TOKEN }}" | sudo -S docker login ghcr.io -u ${{ github.actor }} --password-stdin'
 
       - name: Copy Docker compose file to VM
-        run: sshpass -p "${{ secrets.SUDO_PASSWORD }}" scp -o StrictHostKeyChecking=no docker-compose.yml care@${{ secrets.AWS_HOST_IP }}:${{ env.DEPLOY_PATH }}
+        run: |
+            sshpass -p "${{ secrets.SUDO_PASSWORD }}" scp -o StrictHostKeyChecking=no docker-compose.yml care@${{ secrets.AWS_HOST_IP }}:${{ env.DEPLOY_PATH }}
 
       - name: Set up and copy env file
         env:
@@ -91,10 +94,16 @@ jobs:
         run: scp -o StrictHostKeyChecking=no .env care@${{ secrets.AWS_HOST_IP }}:${{ env.DEPLOY_PATH }}
 
       - name: Build Docker compose
-        run: sshpass -p "${{ secrets.SUDO_PASSWORD }}" ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} 'cd ${{ env.DEPLOY_PATH }} && sudo -S docker compose -f docker-compose.yml pull'
+        run: |
+            sshpass -p "${{ secrets.SUDO_PASSWORD }}" ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} \
+            'cd ${{ env.DEPLOY_PATH }} && sudo -S docker compose -f docker-compose.yml pull'
 
       - name: Run Docker compose
-        run: sshpass -p "${{ secrets.SUDO_PASSWORD }}" ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} 'cd ${{ env.DEPLOY_PATH }} && sudo -S docker compose -f docker-compose.yml up -d'
+        run: |
+            sshpass -p "${{ secrets.SUDO_PASSWORD }}" ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} \
+            'cd ${{ env.DEPLOY_PATH }} && sudo -S docker compose -f docker-compose.yml up -d'
 
-      - name: clear docker image
-        run: sshpass -p "${{ secrets.SUDO_PASSWORD }}" ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} 'cd ${{ env.DEPLOY_PATH }} && sudo -S docker image prune -f'
+      - name: Clear Docker image
+        run: |
+            sshpass -p "${{ secrets.SUDO_PASSWORD }}" ssh -o StrictHostKeyChecking=no care@${{ secrets.AWS_HOST_IP }} \
+            'cd ${{ env.DEPLOY_PATH }} && sudo -S docker image prune -f'
