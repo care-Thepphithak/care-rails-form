@@ -1,6 +1,6 @@
 services:
   web: 
-    image: ghcr.io/care-Thepphithak/care-rails-form:latest
+    image: ghcr.io/care-thepphithak/care-rails-form:latest
     container_name: care_web
     command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails db:migrate && bundle exec rails s -b '0.0.0.0'"
     environment:
