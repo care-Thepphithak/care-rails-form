@@ -13,7 +13,6 @@ env:
 
 jobs:
   build:
-    needs: lint
     runs-on: ubuntu-latest
     outputs:
       image_tags: ${{ steps.meta.outputs.tags }}
