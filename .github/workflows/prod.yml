@@ -8,7 +8,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: care-Thepphithak/care-rails-form
+  IMAGE_NAME: care-thepphithak/care-rails-form
   DEPLOY_PATH: ~/care-rails
 
 jobs:
