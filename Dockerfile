@@ -2,7 +2,7 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.3.1
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-alpine AS base
+FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim AS base
 
 # Rails app lives here
 WORKDIR /rails
@@ -18,9 +18,8 @@ ENV RAILS_ENV="production" \
 FROM base AS build
 
 # Install packages needed to build gems
-# RUN apt-get update -qq && \
-#     apt-get install --no-install-recommends -y build-essential git pkg-config
-RUN apk add --update --no-cache build-base git sqlite-libs tzdata
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential git pkg-config
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -42,18 +41,16 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 FROM base
 
 # Install packages needed for deployment
-# RUN apt-get update -qq && \
-#     apt-get install --no-install-recommends -y curl libsqlite3-0 && \
-#     rm -rf /var/lib/apt/lists /var/cache/apt/archives
-RUN apk add --update --no-cache curl sqlite bash
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl libsqlite3-0 && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
-# RUN useradd rails --create-home --shell /bin/bash && \
-RUN adduser rails --disabled-password --shell /bin/ash && \
+RUN useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 USER rails:rails
 
