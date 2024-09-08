@@ -58,6 +58,7 @@ RUN adduser rails --disabled-password --shell /bin/ash && \
 USER rails:rails
 
 # Entrypoint prepares the database.
+COPY ./bin/docker-entrypoint /rails/bin/docker-entrypoint
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
