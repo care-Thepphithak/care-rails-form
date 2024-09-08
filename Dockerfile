@@ -45,7 +45,7 @@ FROM base
 # RUN apt-get update -qq && \
 #     apt-get install --no-install-recommends -y curl libsqlite3-0 && \
 #     rm -rf /var/lib/apt/lists /var/cache/apt/archives
-RUN apk add --update --no-cache curl sqlite
+RUN apk add --update --no-cache curl sqlite bash
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
@@ -58,7 +58,6 @@ RUN adduser rails --disabled-password --shell /bin/ash && \
 USER rails:rails
 
 # Entrypoint prepares the database.
-COPY ./bin/docker-entrypoint /rails/bin/docker-entrypoint
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
