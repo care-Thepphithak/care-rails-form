@@ -2,7 +2,7 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.3.1
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim AS base
+FROM registry.docker.com/library/ruby:$RUBY_VERSION-alpine AS base
 
 # Rails app lives here
 WORKDIR /rails
@@ -18,8 +18,10 @@ ENV RAILS_ENV="production" \
 FROM base AS build
 
 # Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential pkg-config
+# RUN apt-get update -qq && \
+#     apt-get install --no-install-recommends -y build-essential pkg-config
+RUN apk update && \
+    apk add --no-cache build-base
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -41,9 +43,11 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 FROM base
 
 # Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+# RUN apt-get update -qq && \
+#     apt-get install --no-install-recommends -y && \
+#     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+RUN apk update && \
+    apk add --no-cache bash
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
