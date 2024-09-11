@@ -21,7 +21,7 @@ FROM base AS build
 # RUN apt-get update -qq && \
 #     apt-get install --no-install-recommends -y build-essential pkg-config
 RUN apk update && \
-    apk add --no-cache build-base libxml2-dev libxslt-dev gcompat
+    apk add --no-cache build-base gcompat
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
