@@ -21,7 +21,7 @@ FROM base AS build
 # RUN apt-get update -qq && \
 #     apt-get install --no-install-recommends -y build-essential pkg-config
 RUN apk update && \
-    apk add --no-cache build-base libxml2-dev libxslt-dev
+    apk add --no-cache build-base libxml2-dev libxslt-dev gcompat
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -54,7 +54,7 @@ COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
-RUN useradd rails --create-home --shell /bin/bash && \
+RUN adduser -D -h /home/rails -s /bin/bash rails && \
     chown -R rails:rails db log storage tmp
 USER rails:rails
 
