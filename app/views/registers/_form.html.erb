@@ -57,7 +57,7 @@
 
   <div class="form-group">
     <%= form.label :subject, class: "form-label" %>
-    <%= form.select :subject, options_for_select([["I don't know yet","I don't know yet"], ["Calculus I", "Calculus I"], ["Linear Algebra", "Linear Algebra"], ["Differential Equation", "Differential Equation"]]), { prompt: "Choose option" }, class: "form-select", required: true %>
+    <%= form.select :subject, options_for_select([["I don't know yet","I don't know yet"], ["Calculus I", "Calculus I"], ["Linear Algebra", "Linear Algebra"], ["Differential Equation", "Differential Equation"]], @register.subject), { prompt: "Choose option" }, class: "form-select", required: true %>
   </div>
 
   <div>
